@@ -4,8 +4,8 @@
 |---|---|---|
 | G0 | Spikes | passed (two Claude Code items and Cursor deferred to G4, G2 and G11) |
 | G1 | Simplify the design | passed |
-| G2 | Repo and tooling | exit checks done, awaiting the Developer's review |
-| G3 | Shared contract | pending |
+| G2 | Repo and tooling | passed |
+| G3 | Shared contract | exit checks done, awaiting the Developer's review |
 | G4 | Eval harness and fixtures | pending |
 | G5 | sts-prd | pending |
 | G6 | sts-plan, part 1 | pending |

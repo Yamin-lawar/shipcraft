@@ -85,7 +85,7 @@ Writing rules:
 
 ### Target users
 
-| User | What they're trying to do | Notes |
+| Who | What they're trying to do | Notes |
 |---|---|---|
 | <role or segment> | <their goal> | <size, frequency, skill level, device> |
 

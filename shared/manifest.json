@@ -1,6 +1,13 @@
 {
   "shared": {
-    "host.md": "*"
+    "host.md": "*",
+    "ux.md": "*",
+    "feature-folder.md": "*",
+    "resume.md": "*",
+    "conversation-protocol.md": [
+      "craft-prd",
+      "craft-plan"
+    ]
   },
   "released": []
 }

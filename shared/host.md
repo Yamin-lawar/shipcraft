@@ -14,4 +14,4 @@ The only file that names host tools. Skills refer to capabilities by name. *Assu
 | Background process | the shell tool's background mode | *assumed* | ask the Developer to start the app and give its URL |
 | Search skips `.craft/` | yes (hidden and gitignored): always open by explicit path | *assumed* | — |
 | Manual steps (for "Your turn") | approving the switch to plan mode; approving the plan | *assumed*: switching to Plan mode in the mode picker | — |
-| Install | plugin (`/plugin`), or `npx skills@latest add <repo> -g -a claude-code` | `npx skills@latest add <repo> -g -a cursor` | copy the skill folders manually |
+| Install | plugin: `/plugin marketplace add <owner>/shipcraft`, then `/plugin install shipcraft@shipcraft`; commands read `/shipcraft:craft-prd`. Or `npx skills@latest add <owner>/shipcraft -g -a claude-code`; commands read `/craft-prd` | `npx skills@latest add <owner>/shipcraft -g -a cursor` (*assumed* to load by slash command) | copy the skill folders manually. Always use `-g`: the default installs into the project |
