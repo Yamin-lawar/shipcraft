@@ -1,0 +1,21 @@
+{
+  "name": "shipcraft",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Repo tooling for the Shipcraft skills. Nothing here ships inside a skill.",
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p .",
+    "test": "node --test test/*.test.cjs",
+    "sync": "node scripts/sync-shared.cjs",
+    "sync:check": "node scripts/sync-shared.cjs --check",
+    "version:sync": "node scripts/sync-plugin-version.cjs",
+    "version:check": "node scripts/sync-plugin-version.cjs --check",
+    "lint": "node scripts/lint-skills.cjs && node scripts/lint-plugin.cjs && node scripts/lint-language.cjs && node scripts/lint-docs.cjs",
+    "check": "npm run typecheck && npm test && npm run sync:check && npm run version:check && npm run lint"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}

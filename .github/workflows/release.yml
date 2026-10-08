@@ -1,0 +1,31 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Full checks, strict
+        run: npm run check && node scripts/lint-skills.cjs --strict
+      - name: Tag must match the plugin version
+        run: |
+          v=$(node -p "require('./.claude-plugin/plugin.json').version")
+          [ "refs/tags/v$v" = "$GITHUB_REF" ] || { echo "Tag $GITHUB_REF does not match plugin version $v"; exit 1; }
+      - name: Extract release notes from CHANGELOG
+        run: |
+          v=${GITHUB_REF_NAME#v}
+          awk -v v="$v" '$0 ~ "^## \\[?" v "\\]?" {f=1; next} /^## / {f=0} f' CHANGELOG.md > notes.md
+          [ -s notes.md ] || echo "Release $v" > notes.md
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md

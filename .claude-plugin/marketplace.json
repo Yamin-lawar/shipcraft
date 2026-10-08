@@ -1,0 +1,23 @@
+{
+  "name": "shipcraft",
+  "owner": {
+    "name": "Shipcraft contributors"
+  },
+  "plugins": [
+    {
+      "name": "shipcraft",
+      "source": "./",
+      "description": "Explore, PRD, plan, secure, test, fix and document a feature.",
+      "category": "engineering",
+      "keywords": [
+        "prd",
+        "planning",
+        "skills",
+        "testing"
+      ]
+    }
+  ],
+  "metadata": {
+    "description": "Shipcraft: skills that take a feature from idea to shipped code."
+  }
+}

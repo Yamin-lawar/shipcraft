@@ -1,0 +1,38 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm test
+      - name: Shared files and versions are in sync
+        run: npm run sync:check && npm run version:check
+      - name: Lints
+        run: node scripts/lint-skills.cjs && node scripts/lint-plugin.cjs && node scripts/lint-language.cjs && node scripts/lint-docs.cjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate skills against the Agent Skills spec
+        run: |
+          git clone --depth 1 https://github.com/agentskills/agentskills.git "$RUNNER_TEMP/agentskills"
+          pip install -e "$RUNNER_TEMP/agentskills/skills-ref"
+          for d in skills/*/; do
+            if [ -f "$d/SKILL.md" ]; then skills-ref validate "$d"; fi
+          done
+      - name: Validate Claude plugin manifests
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate .
+          claude plugin validate .claude-plugin/plugin.json

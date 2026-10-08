@@ -1,0 +1,15 @@
+# Exemptions for lint-language.cjs.
+# Words that are ordinary English in context, so they are not enforced from the glossary's Avoid lists:
+ignore-term: change
+ignore-term: constraint
+ignore-term: lock
+ignore-term: review
+ignore-term: notes
+ignore-term: track
+ignore-term: phase
+ignore-term: customer
+ignore-term: edge case
+# "approval" names the host's plan-mode approval step:
+references/host.md :: approval
+# The PRD template mirrors how product documents address their own product's users:
+skills/craft-prd/assets/prd-template.md :: user

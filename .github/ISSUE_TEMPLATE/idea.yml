@@ -1,0 +1,16 @@
+name: Idea
+description: Suggest an improvement to a skill, or a new capability
+labels: [idea]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+    validations: { required: true }
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like Shipcraft to do?
+  - type: markdown
+    attributes:
+      value: Check SCOPE.md first. Shipcraft deliberately stays small and optional at every step.
