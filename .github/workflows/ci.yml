@@ -31,6 +31,12 @@ jobs:
           for d in skills/*/; do
             if [ -f "$d/SKILL.md" ]; then skills-ref validate "$d"; fi
           done
+      - name: Fixture tests (Node)
+        run: npm --prefix evals/fixtures/tasks-node ci && npm --prefix evals/fixtures/tasks-node test
+      - name: Fixture tests (Python)
+        run: |
+          pip install -r evals/fixtures/tasks-py/requirements.txt
+          (cd evals/fixtures/tasks-py && pytest -q)
       - name: Validate Claude plugin manifests
         run: |
           npm install -g @anthropic-ai/claude-code

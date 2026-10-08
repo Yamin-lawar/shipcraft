@@ -12,9 +12,13 @@
     "version:sync": "node scripts/sync-plugin-version.cjs",
     "version:check": "node scripts/sync-plugin-version.cjs --check",
     "lint": "node scripts/lint-skills.cjs && node scripts/lint-plugin.cjs && node scripts/lint-language.cjs && node scripts/lint-docs.cjs",
-    "check": "npm run typecheck && npm test && npm run sync:check && npm run version:check && npm run lint"
+    "check": "npm run typecheck && npm test && npm run sync:check && npm run version:check && npm run lint",
+    "eval:smoke": "node evals/run.cjs --skill _harness --variant without --gate smoke",
+    "eval:dry": "node evals/run.cjs --dry --skill",
+    "fixtures:test": "npm --prefix evals/fixtures/tasks-node test"
   },
   "devDependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.293",
     "@types/node": "^22.0.0",
     "typescript": "^5.6.0"
   }

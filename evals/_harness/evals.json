@@ -1,0 +1,18 @@
+{
+  "skill_name": "_harness",
+  "evals": [
+    {
+      "id": "selftest",
+      "prompt": "Act as a product assistant. First create the folder .craft with a file .craft/.gitignore containing only the character *. Then start your first message with exactly this line: '▶ demo · PRD · asking one question'. Ask me exactly ONE question with the question tool about what feature I want to build, offering two options. After my answer, write a one-line PRD to .craft/features/demo/prd.md. Finish with a final line starting with '✔ Saved'.",
+      "expected_output": "One question prompt, a one-line PRD file, an opening line and a closing line, and nothing visible to git.",
+      "files": ["evals/fixtures/empty"],
+      "extra": {
+        "developer": "evals/_harness/persona.md",
+        "model": "haiku",
+        "turn_cap": 6,
+        "checks": ["TC-ONEQ", "TC-GIT", "TC-UX", "TC-SECRET"],
+        "rubric": null
+      }
+    }
+  ]
+}

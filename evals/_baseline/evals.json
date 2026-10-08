@@ -1,0 +1,20 @@
+{
+  "skill_name": "_baseline",
+  "evals": [
+    {
+      "id": "BASE-01",
+      "prompt": "Plan how to add recurring tasks to this task app. A task should be able to repeat daily, weekly, every two weeks or monthly, and new occurrences must be created automatically. I want a detailed implementation plan I can build from.",
+      "expected_output": "A detailed implementation plan from plain plan mode, with no Shipcraft skills. This is the baseline the suite must beat.",
+      "files": ["evals/fixtures/tasks-node"],
+      "extra": {
+        "developer": "evals/_baseline/persona.md",
+        "permissionMode": "plan",
+        "turn_cap": 14,
+        "checks": ["TC-ONEQ"],
+        "rubric": "plan",
+        "artifact": "baseline/plan\\.md$",
+        "threshold": 4
+      }
+    }
+  ]
+}

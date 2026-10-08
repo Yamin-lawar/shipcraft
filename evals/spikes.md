@@ -28,3 +28,4 @@ Run on 2026-10-08 with Claude Code (CLI 2.1.x, Node 26, git 2.39).
 - `npx skills add <repo> -g -a claude-code -a cursor -s <skill> --copy` installs **user-level** to `~/.agents/skills/<skill>` and `~/.claude/skills/<skill>` (checked with an isolated HOME), including `references/` and `assets/`, and touches nothing in the project.
 - `skills-ref validate` (official, Python) passes on `hello-world`. CI clones `agentskills/agentskills` and installs it.
 - Slash-command loading in Cursor remains open (Gate 11).
+- **SP-09 confirmed (Gate 4):** the Agent SDK (`@anthropic-ai/claude-agent-sdk`) intercepts the question tool through `canUseTool`. The handler receives `{questions}` and answers by returning `updatedInput: { questions, answers }`, where `answers` maps each question's text to the chosen option label. A one-question round trip on the cheapest model cost under one cent. So a simulated Developer can answer question prompts in headless runs.

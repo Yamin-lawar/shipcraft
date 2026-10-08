@@ -9,4 +9,5 @@ All notable changes to Shipcraft are recorded here. The format follows [Keep a C
 - Plugin manifests for Claude Code, and a `hello-world` spike skill (removed before the first release).
 - Shared contract: message formats (`ux.md`), conversation protocol, feature folder and `.craft/` rules, resume and progress rules, host differences.
 - Templates for the PRD, brief, project profile, project glossary and plan wrapper, plus golden example PRD and brief.
+- Eval harness for maintainers (never shipped): sample apps in Node and Python, a runner with a simulated Developer, free transcript checks, a calibrated judge, rubrics, and spend caps.
 - Reference journey script for "recurring tasks".

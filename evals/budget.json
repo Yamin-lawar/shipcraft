@@ -1,0 +1,13 @@
+{
+  "perConversationUsd": 1.0,
+  "perJudgeRunUsd": 0.15,
+  "smokeRunUsd": 5.0,
+  "perGateUsd": 10.0,
+  "models": {
+    "developer": "haiku",
+    "judgeBuilding": "sonnet",
+    "judgeRelease": "opus",
+    "skillUnderTest": "sonnet"
+  },
+  "judgeRuns": { "building": 1, "release": 3 }
+}

@@ -1,0 +1,40 @@
+{
+  "rubric": "brief",
+  "samples": [
+    {
+      "file": "01-golden.md",
+      "expected_average": 4.4,
+      "note": "the golden example"
+    },
+    {
+      "file": "02-untagged.md",
+      "expected_average": 3.7,
+      "expect_low": [
+        "claims_sourced"
+      ],
+      "note": "all source tags removed"
+    },
+    {
+      "file": "03-transcript.md",
+      "expected_average": 1.8,
+      "expect_low": [
+        "distilled"
+      ],
+      "note": "a raw conversation instead of a distilled brief"
+    },
+    {
+      "file": "04-missing-areas.md",
+      "expected_average": 3.4,
+      "expect_low": [
+        "context_coverage"
+      ],
+      "note": "end users, use cases and security removed"
+    },
+    {
+      "file": "05-thin.md",
+      "expected_average": 1.3,
+      "note": "a thin paragraph"
+    }
+  ],
+  "status": "builder estimates; the Developer confirms or corrects before G4 is signed off"
+}
