@@ -42,6 +42,14 @@
 - **Fixture domain:** a simple task tracker. The example journey becomes "recurring tasks".
 - **Skill order:** `sts-prd` first, at the builder's discretion, which the Developer approved.
 
+**Revision 5** (the Developer: "evals must be cheaper"): evals are for maintainers only and never ship. They are redesigned to cost about $5-10 per gate:
+- **Free first:** deterministic transcript checks (one question per prompt, nothing committed, history saved, no secrets, ceilings, UX lines) run on every eval at no cost.
+- **Cheap models:** the simulated Developer uses the cheapest model, the judge a mid-tier model. The strongest model judges only at release.
+- **Record once:** a conversation is run once and saved. Re-checking and re-scoring replay the saved transcript, with no new conversation.
+- **One judge run while building, three (median) only at release.** The judge reads the artifact, not the whole conversation.
+- **Few scenarios while building:** 3-4 core scenarios on the Node fixture. The full matrix on both fixtures runs only at release.
+- **Hard caps** in `evals/budget.json`: $1 per conversation, $0.15 per judge run, $5 per smoke run, and a per-gate budget that stops the run when spent.
+
 **Revision 4** (Gate 0 finding, 2026-10-08): `mrtblount/Spec-to-Ship` already exists with a near-identical idea and name. **The product is renamed Shipcraft.**
 - Repo `shipcraft`, skills prefixed `craft-` (`/craft-prd`, `/craft-plan`, `/craft-explore`, `/craft-flow`, `/craft-challenge`; v0.2: `craft-secure`, `craft-test`, `craft-fix`, `craft-docs-eng`, `craft-docs-product`), hidden folder `.craft/` in users' projects.
 - Everywhere this plan says SpecToShip, `sts-` or `.sts/`, read Shipcraft, `craft-` and `.craft/`. Gate 1 step 1.0 makes the change mechanically.
@@ -324,14 +332,15 @@ Each case runs `with_skill` and `without_skill` into `<skill>-workspace/iteratio
 | Explore checkpoint | about every 8 exchanges |
 | Turn length | about 150 words |
 | History | newest 10 per file (the skill deletes older copies) |
-| Judge | median of 3 runs; pinned model |
+| Judge | one run while building, median of 3 at release; mid-tier model while building, strongest at release; pinned per release |
 | Judge calibration | ≥80% of items within ±1 of the human score, 5 human-scored items per rubric |
 | Quality bar | average ≥4 per artifact, no criterion <3 |
 | Trigger tests | ≥9/10 correct per skill |
 | Feel checks | ≥4/5 |
 | Newcomer test | install to an approved Plan in <20 min, with 0 questions asked |
 | Install | ≤30 seconds per host |
-| Smoke evals | ≤10 min per commit |
+| Smoke evals | ≤10 min and ≤$5 per run; free checks on every commit |
+| Eval caps | $1 per conversation, $0.15 per judge run, per-gate budget in `evals/budget.json` |
 
 ## 10. Observability
 
@@ -524,9 +533,10 @@ Every gate also requires the **standing checks**: `node --test`, `npx tsc --noEm
 - `empty`
 - `seeds/`
 - `evals/<skill>/evals.json` in the **official format**, with multi-turn fields under `extra` (D-19)
-- `run.cjs` (headless runner plus simulated Developer). Writes the official `<skill>-workspace/iteration-N/eval-<id>/{with_skill,without_skill}/` with `outputs/`, `timing.json` and `grading.json`
+- `evals/budget.json` (the caps above) and a spend ledger the runner updates, stopping when a budget is spent
+- `run.cjs` (headless runner plus simulated Developer on the cheapest model; saves every transcript; `--replay` re-checks and re-scores a saved transcript with no new conversation). Writes the official `<skill>-workspace/iteration-N/eval-<id>/{with_skill,without_skill}/` with `outputs/`, `timing.json` and `grading.json`
 - `checks.cjs` (all TC)
-- `judge.cjs` (pinned model, ×3 median, JSON with evidence quotes)
+- `judge.cjs` (mid-tier model while building, ×1; strongest model ×3 median at release; JSON with evidence quotes; artifact only)
 - `rubrics/` (PRD, Plan, brief, conversation, parity) and `calibration/`
 - BASE-01
 
