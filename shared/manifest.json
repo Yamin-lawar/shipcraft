@@ -9,5 +9,11 @@
       "craft-plan"
     ]
   },
-  "released": []
+  "released": [
+    "craft-explore",
+    "craft-prd",
+    "craft-challenge",
+    "craft-plan",
+    "craft-flow"
+  ]
 }

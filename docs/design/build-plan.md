@@ -15,7 +15,7 @@
 | G10 | sts-challenge | built; judge 3.83, just under bar (see evals/results/G10.md) |
 | G11 | Cursor and parity | pending |
 | G12 | Dogfood and head-to-head | pending |
-| G13 | Docs and v0.1 release | pending |
+| G13 | Docs and v0.1 release | docs and README written; release steps (newcomer test, tag, remote) not done |
 | G14 | Launch v0.1 | pending |
 | G15 | v0.2: sts-secure | pending |
 | G16 | v0.2: sts-test | pending |
