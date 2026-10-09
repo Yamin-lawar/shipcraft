@@ -50,7 +50,7 @@ Use whichever you prefer. Install **globally** so nothing is added to your proje
 <summary><strong>Claude Code</strong> (plugin, updates itself)</summary>
 
 ```bash
-/plugin marketplace add OWNER/shipcraft
+/plugin marketplace add Yamin-lawar/shipcraft
 /plugin install shipcraft@shipcraft
 ```
 Commands then read `/shipcraft:craft-prd`, `/shipcraft:craft-plan` and so on.
@@ -60,7 +60,7 @@ Commands then read `/shipcraft:craft-prd`, `/shipcraft:craft-plan` and so on.
 <summary><strong>Claude Code, Cursor and other agents</strong> (<code>npx</code>)</summary>
 
 ```bash
-npx skills@latest add OWNER/shipcraft -g -a claude-code    # or: -a cursor
+npx skills@latest add Yamin-lawar/shipcraft -g -a claude-code    # or: -a cursor
 ```
 Commands read `/craft-prd`, `/craft-plan` and so on. Always pass `-g`: without it the installer writes into your project. Update with `npx skills@latest update`.
 

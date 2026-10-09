@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "Skills that take a feature from idea to shipped, tested and documented code: explore, PRD, plan, secure, test, fix, docs. Works in Claude Code and Cursor.",
   "author": {
-    "name": "Shipcraft contributors"
+    "name": "Yamin Lawar",
+    "url": "https://github.com/Yamin-lawar"
   },
-  "repository": "https://github.com/OWNER/shipcraft",
+  "repository": "https://github.com/Yamin-lawar/shipcraft",
   "license": "MIT",
   "keywords": [
     "prd",

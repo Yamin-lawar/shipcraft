@@ -21,5 +21,10 @@
     "@anthropic-ai/claude-agent-sdk": "^0.3.293",
     "@types/node": "^22.0.0",
     "typescript": "^5.6.0"
+  },
+  "author": "Yamin Lawar <lawar.yamin@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yamin-lawar/shipcraft.git"
   }
 }

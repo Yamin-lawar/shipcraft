@@ -1,7 +1,8 @@
 {
   "name": "shipcraft",
   "owner": {
-    "name": "Shipcraft contributors"
+    "name": "Yamin Lawar",
+    "url": "https://github.com/Yamin-lawar"
   },
   "plugins": [
     {
