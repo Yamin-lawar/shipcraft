@@ -20,6 +20,13 @@ const BASH_DENY = /\b(rm|sudo|curl|wget|chmod|chown|kill|dd|mkfs|shutdown|reboot
 /** Deny obviously dangerous shell commands. The runner also confines the working directory. @param {string} cmd */
 function bashAllowed(cmd) { return !BASH_DENY.test(cmd); }
 
+/** The .craft path a shell command writes to, or null. Catches redirects, tee, cp, mv and touch. @param {string} cmd @returns {string|null} */
+function bashWritePath(cmd) {
+  if (!/(>>?|\btee\b|\bcp\b|\bmv\b|\btouch\b)/.test(cmd)) return null;
+  const m = cmd.match(/(\.craft\/[^\s'"`;|&)]+)/);
+  return m ? m[1] : null;
+}
+
 /** True when a file path is inside the work directory. @param {string} file @param {string} workdir */
 function insideWorkdir(file, workdir) {
   const resolved = path.resolve(workdir, file);
@@ -51,4 +58,4 @@ function promptFor(prompt, variant) {
   return prompt.replace(/^\/craft-[a-z-]+\s*/, '');
 }
 
-module.exports = { makeChannel, bashAllowed, insideWorkdir, parseChoice, promptFor };
+module.exports = { makeChannel, bashAllowed, bashWritePath, insideWorkdir, parseChoice, promptFor };

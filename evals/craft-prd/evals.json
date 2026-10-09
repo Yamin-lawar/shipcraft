@@ -1,0 +1,120 @@
+{
+  "skill_name": "craft-prd",
+  "evals": [
+    {
+      "id": "EV-PRD-01",
+      "prompt": "/craft-prd recurring tasks for my task app",
+      "expected_output": "A PRD in the standard format for recurring tasks, grounded in the existing app: testable Given/When/Then acceptance criteria, edge cases (missed runs, month-end, timezones, permissions, limits) as ACs, out of scope, flow diagram, assumptions shown once. Questions come one at a time through the question prompt, each with a recommended answer. The first message is the opening line and the last is the closing line.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "developer": "evals/craft-prd/personas/dana-recurring.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-CEIL",
+          "TC-UX",
+          "TC-PROGRESS"
+        ],
+        "checkParams": {
+          "TC-CEIL": {
+            "ceiling": 20
+          }
+        },
+        "rubric": "prd",
+        "artifact": "\\.craft/features/[^/]+/prd\\.md$",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-PRD-02",
+      "prompt": "/craft-prd a habit tracker web app",
+      "expected_output": "A PRD for a new product from an empty folder: problem, one user, core use cases, out of scope, requirements with testable ACs, a first-run welcome shown once, at most 20 questions.",
+      "files": [
+        "evals/fixtures/empty"
+      ],
+      "extra": {
+        "developer": "evals/craft-prd/personas/priya-habits.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-CEIL",
+          "TC-UX",
+          "TC-PROGRESS"
+        ],
+        "checkParams": {
+          "TC-CEIL": {
+            "ceiling": 20
+          }
+        },
+        "rubric": "prd",
+        "artifact": "\\.craft/features/[^/]+/prd\\.md$",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-PRD-03",
+      "prompt": "/craft-prd recurring tasks for my task app",
+      "expected_output": "The Developer says 'you decide', 'skip', 'back' and 'enough, draft it'. The skill honours each one: takes the recommended answer, leaves a topic as an assumption or open question, re-checks what depended on the changed answer, and drafts the PRD without asking more. It never repeats a question.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "developer": "evals/craft-prd/personas/dana-controls.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-CEIL",
+          "TC-UX",
+          "TC-PROGRESS"
+        ],
+        "checkParams": {
+          "TC-CEIL": {
+            "ceiling": 20
+          }
+        },
+        "rubric": "conversation",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-COLD-PRD",
+      "prompt": "/craft-prd",
+      "expected_output": "Started with no idea in an empty folder: the skill asks once, in the Developer's own words, what to build, then carries on. It does not fail or invent an idea.",
+      "files": [
+        "evals/fixtures/empty"
+      ],
+      "extra": {
+        "developer": "evals/craft-prd/personas/priya-habits.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-CEIL",
+          "TC-UX",
+          "TC-PROGRESS"
+        ],
+        "checkParams": {
+          "TC-CEIL": {
+            "ceiling": 20
+          }
+        },
+        "rubric": "prd",
+        "artifact": "\\.craft/features/[^/]+/prd\\.md$",
+        "threshold": 4
+      }
+    }
+  ]
+}

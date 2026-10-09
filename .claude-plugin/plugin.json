@@ -2,9 +2,21 @@
   "name": "shipcraft",
   "version": "0.0.1",
   "description": "Skills that take a feature from idea to shipped, tested and documented code: explore, PRD, plan, secure, test, fix, docs. Works in Claude Code and Cursor.",
-  "author": { "name": "Shipcraft contributors" },
+  "author": {
+    "name": "Shipcraft contributors"
+  },
   "repository": "https://github.com/OWNER/shipcraft",
   "license": "MIT",
-  "keywords": ["prd", "planning", "skills", "spec", "testing", "documentation"],
-  "skills": ["./skills/hello-world"]
+  "keywords": [
+    "prd",
+    "planning",
+    "skills",
+    "spec",
+    "testing",
+    "documentation"
+  ],
+  "skills": [
+    "./skills/hello-world",
+    "./skills/craft-prd"
+  ]
 }

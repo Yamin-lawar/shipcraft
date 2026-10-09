@@ -1,0 +1,17 @@
+{
+  "skill": "craft-prd",
+  "should_load": [
+    "I want to spec out a new feature: recurring tasks. Can you help me write the PRD?",
+    "let's define the requirements for a CSV export feature in this app",
+    "/craft-prd bulk invite for teams",
+    "help me turn this idea into a proper PRD: members should be able to snooze reminders",
+    "I need a product requirements doc for a dark mode feature"
+  ],
+  "should_not_load": [
+    "plan this refactor of the auth module",
+    "fix the typo in the README",
+    "explain what this function does",
+    "write unit tests for the task service",
+    "what does a PRD stand for?"
+  ]
+}

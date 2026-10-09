@@ -38,7 +38,7 @@ Depth only decides what `craft-flow` suggests next. Any stage can still run late
 
 ## Writing files
 - **Explicit paths only.** The host's search skips hidden and gitignored folders, so always open `.craft/` files by their exact path, never by searching.
-- **History before overwrite.** Before changing an existing artifact, copy it to `.craft/features/<slug>/.history/<file>.<YYYYMMDD-HHMMSS>.md`. Keep the newest 10 per file and delete older ones. This is what makes "undo" work.
+- **History before replacing.** Before the first change to an artifact that already existed when you started (a resumed or finished file), and before a finished document replaces a draft, copy the file to `.craft/features/<slug>/.history/<file>.<YYYYMMDD-HHMMSS>.md`. Small appends to a draft log do not each need a copy. Keep the newest 10 per file and delete older ones. This is what makes "undo" work.
 - **Frontmatter.** Every artifact starts with `craft_format: 1`. If you meet a different format version, say so and offer to migrate after asking.
 - **No secrets.** Never write API keys, tokens, passwords or private keys into `.craft/`. Credentials come from environment variables, and are never echoed into briefs, reports or examples.
 - **Save as you go.** Save after every answer or every few exchanges, so nothing is lost if the chat ends.

@@ -11,7 +11,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { sdk, oneShot } = require('./lib/sdk.cjs');
-const { makeChannel, bashAllowed, insideWorkdir, parseChoice, promptFor } = require('./lib/sim.cjs');
+const { makeChannel, bashAllowed, bashWritePath, insideWorkdir, parseChoice, promptFor } = require('./lib/sim.cjs');
 const { loadBudget, addSpend, assertWithinBudget } = require('./lib/budget.cjs');
 const { runChecks } = require('./checks.cjs');
 const { judge } = require('./judge.cjs');
@@ -92,14 +92,20 @@ async function runConversation(o) {
           channel.close();
           return { behavior: 'deny', message: 'The plan has been captured. Stop here.' };
         }
-        if (['Read', 'Glob', 'Grep', 'Skill', 'TodoWrite'].includes(tool)) return { behavior: 'allow', updatedInput: input };
+        if (['Read', 'Glob', 'Grep', 'Skill', 'TodoWrite'].includes(tool)) { events.push({ t: 'tool', name: tool, target: String(input.file_path || input.skill || input.pattern || '').slice(0, 120) }); return { behavior: 'allow', updatedInput: input }; }
         if (['Write', 'Edit', 'MultiEdit'].includes(tool)) {
           const p = input.file_path || '';
           if (!insideWorkdir(p, o.workdir)) return { behavior: 'deny', message: 'Writes are limited to the project folder.' };
           events.push({ t: 'write', path: path.relative(o.workdir, path.resolve(o.workdir, p)) });
           return { behavior: 'allow', updatedInput: input };
         }
-        if (tool === 'Bash') return bashAllowed(input.command || '') ? { behavior: 'allow', updatedInput: input } : { behavior: 'deny', message: 'That command is not allowed in this test.' };
+        if (tool === 'Bash') {
+          if (!bashAllowed(input.command || '')) return { behavior: 'deny', message: 'That command is not allowed in this test.' };
+          const wp = bashWritePath(input.command || '');
+          if (wp) events.push({ t: 'write', path: wp, via: 'bash' });
+          events.push({ t: 'tool', name: 'Bash', command: String(input.command || '').slice(0, 200) });
+          return { behavior: 'allow', updatedInput: input };
+        }
         return { behavior: 'deny', message: `${tool} is not available in this test.` };
       },
     },

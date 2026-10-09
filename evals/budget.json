@@ -9,5 +9,8 @@
     "judgeRelease": "opus",
     "skillUnderTest": "sonnet"
   },
-  "judgeRuns": { "building": 1, "release": 3 }
+  "judgeRuns": {
+    "building": 3,
+    "release": 3
+  }
 }

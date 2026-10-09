@@ -38,19 +38,19 @@ function tcGit(ctx) {
   return result('TC-GIT', d);
 }
 
-/** TC-HIST: every overwrite of an artifact has a .history copy. @param {Ctx} ctx */
+/** TC-HIST: a file written more than once has at least one .history copy (the version before it was replaced). Small appends to a draft log do not each need one. @param {Ctx} ctx */
 function tcHist(ctx) {
   /** @type {string[]} */ const d = [];
   /** @type {Record<string, number>} */ const writes = {};
   for (const e of ctx.events) if (e.t === 'write' && /\.craft\/features\/.*\.md$/.test(e.path) && !/\/\.history\//.test(e.path)) writes[e.path] = (writes[e.path] || 0) + 1;
   const files = Object.keys(ctx.craftFiles || {});
   for (const [p, n] of Object.entries(writes)) {
-    const needed = Math.min(n - 1, 10);
+    const needed = n >= 2 ? 1 : 0;
     if (needed <= 0) continue;
     const dir = p.slice(0, p.lastIndexOf('/'));
     const base = p.slice(p.lastIndexOf('/') + 1).replace(/\.md$/, '');
     const have = files.filter((f) => f.startsWith(`${dir}/.history/${base}.`)).length;
-    if (have < needed) d.push(`${p}: written ${n} times but only ${have} .history copies (need ${needed})`);
+    if (have < needed) d.push(`${p}: written ${n} times but no .history copy of an earlier version`);
   }
   return result('TC-HIST', d);
 }
@@ -96,6 +96,19 @@ function tcStep0(ctx) {
   return result('TC-STEP0', s0 === -1 ? ['plan.md has no Step 0'] : g1 !== -1 && g1 < s0 ? ['Step 0 comes after the first gate or step'] : []);
 }
 
+/** TC-PROGRESS: the draft is saved early, not only at the end. @param {Ctx} ctx @param {{ file?: RegExp, within?: number }} [p] */
+function tcProgress(ctx, p = {}) {
+  const file = p.file || /prd\.md$/;
+  const within = p.within || 3;
+  let prompts = 0;
+  for (const e of ctx.events) {
+    if (e.t === 'write' && file.test(e.path)) return result('TC-PROGRESS', []);
+    if (e.t === 'question_prompt') prompts += 1;
+    if (prompts > within) return result('TC-PROGRESS', [`${prompts} questions were asked before the draft was first saved (limit ${within})`]);
+  }
+  return result('TC-PROGRESS', prompts > within ? [`draft never saved after ${prompts} questions`] : []);
+}
+
 /** TC-NOPROMPT: no question prompts at all (exploration). @param {Ctx} ctx */
 function tcNoPrompt(ctx) {
   const n = ctx.events.filter((e) => e.t === 'question_prompt').length;
@@ -112,7 +125,7 @@ function tcUx(ctx) {
   return result('TC-UX', d);
 }
 
-const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-UX': tcUx };
+const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-PROGRESS': tcProgress, 'TC-UX': tcUx };
 
 /**
  * @param {Ctx} ctx @param {string[]} ids @param {Record<string, any>} [params]

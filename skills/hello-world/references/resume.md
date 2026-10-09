@@ -26,7 +26,7 @@ Write the "last session" note in two or three lines, in plain words, whenever a 
 | Stage | Saved continuously to |
 |---|---|
 | explore | `brief.md`, every few exchanges and at each checkpoint |
-| PRD | the draft `prd.md` after every answer, with a `## Conversation progress` section (topics covered, topics pending, questions used). Remove the section when the PRD is finished |
+| PRD | a running decisions log in the draft `prd.md`, appended after every answer under `## Conversation progress` (topic, decision, source), plus topics covered, topics pending and questions used. The full PRD is written at the end, and the section is replaced then |
 | plan conversation | `.craft/handoff/<slug>.md` as a running log of decisions, in normal mode |
 | build | gate status in `plan.md` frontmatter, plus the current gate and last step in `state.md`. Steps in `plan.md` are checkboxes, ticked as they finish |
 | secure, test, fix | their reports, updated per item |

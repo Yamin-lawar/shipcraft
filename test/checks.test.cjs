@@ -21,7 +21,7 @@ test('UT-CHECKS-02 TC-GIT flags Shipcraft files in git status', () => {
   assert.equal(run({ events: [], gitStatus: '?? .craft/\n' }, 'TC-GIT').ok, false);
   assert.equal(run({ events: [], gitStatus: '?? skills-lock.json\n' }, 'TC-GIT').ok, false);
 });
-test('UT-CHECKS-03 TC-HIST needs a history copy per overwrite', () => {
+test('UT-CHECKS-03 TC-HIST needs a history copy once a file is rewritten', () => {
   const p = '.craft/features/x/prd.md';
   const w = { t: 'write', path: p };
   assert.equal(run({ events: [w], craftFiles: {} }, 'TC-HIST').ok, true);
@@ -53,6 +53,12 @@ test('UT-CHECKS-07 TC-STEP0 needs Step 0 before the first gate', () => {
 test('UT-CHECKS-08 TC-NOPROMPT forbids question prompts', () => {
   assert.equal(run({ events: [say('chat')] }, 'TC-NOPROMPT').ok, true);
   assert.equal(run({ events: [ask(1)] }, 'TC-NOPROMPT').ok, false);
+});
+test('UT-CHECKS-10 TC-PROGRESS needs an early draft save', () => {
+  const w = { t: 'write', path: '.craft/features/x/prd.md' };
+  assert.equal(run({ events: [ask(1), ask(1), w, ask(1), ask(1)] }, 'TC-PROGRESS').ok, true);
+  assert.equal(run({ events: [ask(1), ask(1), ask(1), ask(1), w] }, 'TC-PROGRESS').ok, false);
+  assert.equal(run({ events: [ask(1), ask(1)] }, 'TC-PROGRESS').ok, true);
 });
 test('UT-CHECKS-09 TC-UX needs the opening and closing lines', () => {
   const ok = { events: [say('▶ recurring-tasks · PRD · I will ask short questions'), say('hi'), say('✔ Saved prd.md · Next: /craft-plan · Say "continue"')] };

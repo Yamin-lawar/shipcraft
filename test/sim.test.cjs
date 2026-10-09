@@ -1,7 +1,7 @@
 // @ts-check
 const test = require('node:test');
 const assert = require('node:assert');
-const { makeChannel, bashAllowed, insideWorkdir, parseChoice, promptFor } = require('../evals/lib/sim.cjs');
+const { makeChannel, bashAllowed, bashWritePath, insideWorkdir, parseChoice, promptFor } = require('../evals/lib/sim.cjs');
 
 test('UT-SIM-01 the channel delivers pushed messages in order and ends when closed', async () => {
   const ch = makeChannel();
@@ -35,4 +35,12 @@ test('UT-SIM-05 promptFor namespaces the skill command, or strips it without the
   assert.equal(promptFor('/craft-prd recurring tasks', 'with'), '/shipcraft:craft-prd recurring tasks');
   assert.equal(promptFor('/craft-prd recurring tasks', 'without'), 'recurring tasks');
   assert.equal(promptFor('plain text', 'with'), 'plain text');
+});
+
+test('UT-SIM-06 bashWritePath finds writes into .craft only', () => {
+  assert.equal(bashWritePath("cat > .craft/features/x/prd.md <<'EOF'"), '.craft/features/x/prd.md');
+  assert.equal(bashWritePath('mkdir -p .craft/features/x'), null);
+  assert.equal(bashWritePath('echo hi >> .craft/state.md'), '.craft/state.md');
+  assert.equal(bashWritePath('ls .craft'), null);
+  assert.equal(bashWritePath('cat src/app.js > out.txt'), null);
 });

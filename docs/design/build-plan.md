@@ -6,8 +6,8 @@
 | G1 | Simplify the design | passed |
 | G2 | Repo and tooling | passed |
 | G3 | Shared contract | passed |
-| G4 | Eval harness and fixtures | exit checks done, awaiting the Developer's review |
-| G5 | sts-prd | pending |
+| G4 | Eval harness and fixtures | passed |
+| G5 | sts-prd | built; partly proven, awaiting the Developer's review |
 | G6 | sts-plan, part 1 | pending |
 | G7 | sts-plan, part 2 | pending |
 | G8 | sts-explore | pending |
@@ -46,7 +46,7 @@
 - **Free first:** deterministic transcript checks (one question per prompt, nothing committed, history saved, no secrets, ceilings, UX lines) run on every eval at no cost.
 - **Cheap models:** the simulated Developer uses the cheapest model, the judge a mid-tier model. The strongest model judges only at release.
 - **Record once:** a conversation is run once and saved. Re-checking and re-scoring replay the saved transcript, with no new conversation.
-- **One judge run while building, three (median) only at release.** The judge reads the artifact, not the whole conversation.
+- **Three judge runs (median) at gate exits.** A judge run costs about $0.04, so three is cheap; one run proved noisy (the same artifact scored 3.83, 4.17 and 4.0). The strongest model judges only at release. The judge reads the artifact, not the whole conversation.
 - **Few scenarios while building:** 3-4 core scenarios on the Node fixture. The full matrix on both fixtures runs only at release.
 - **Hard caps** in `evals/budget.json`: $1 per conversation, $0.15 per judge run, $5 per smoke run, and a per-gate budget that stops the run when spent.
 
