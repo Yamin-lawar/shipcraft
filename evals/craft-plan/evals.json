@@ -1,0 +1,138 @@
+{
+  "skill_name": "craft-plan",
+  "evals": [
+    {
+      "id": "EV-PLAN-01",
+      "prompt": "/craft-plan recurring tasks for my task app",
+      "expected_output": "Intake finds the existing PRD and does not ask for one. Groundwork detects Node and SQLite and finds the daily digest job on node-cron and no queue. The architect opens with a feasibility and reuse readout, proposes reusing the cron runner with a job table, decides one design decision per prompt, plays back a design summary, asks the size and gating question, and writes a hand-off file. It never writes the Plan itself.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "seed": "prd-ready",
+        "developer": "evals/craft-plan/personas/dana-engineer.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-HANDOFF",
+          "TC-WRITES",
+          "TC-NOWRITE",
+          "TC-STRUCTURE"
+        ],
+        "rubric": "plan-conversation",
+        "artifactMode": "transcript+files",
+        "artifact": "\\.craft/handoff/[^/]+\\.md$",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-PLAN-02",
+      "prompt": "/craft-plan recurring tasks for my task app. We have no PRD file, but here is our spec from the wiki:\n\nRecurring tasks. People waste time re-creating weekly tasks. Let a task repeat daily/weekly/monthly. New copy shows up automatically. If the server is down it should catch up. Only project members. Maybe timezone stuff. Should be fast.",
+      "expected_output": "Intake imports the pasted spec into the PRD format with R- and AC- identifiers, keeping its wording, lists what is missing, asks at most 3 gap questions, then continues to the design conversation and writes a hand-off file.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "developer": "evals/craft-plan/personas/dana-engineer.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-HANDOFF",
+          "TC-WRITES",
+          "TC-STRUCTURE"
+        ],
+        "rubric": "plan-conversation",
+        "artifactMode": "transcript+files",
+        "artifact": "\\.craft/(handoff|features/[^/]+/prd)[^/]*\\.md$",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-PLAN-03",
+      "prompt": "/craft-plan recurring tasks for my task app",
+      "expected_output": "No PRD exists. The skill offers the PRD skill once, the Developer declines, and it runs a captured PRD (at most 5 confirming questions, origin: captured) before the design conversation, then writes a hand-off file.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "developer": "evals/craft-plan/personas/dana-no-prd.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-HANDOFF",
+          "TC-WRITES",
+          "TC-STRUCTURE"
+        ],
+        "rubric": "plan-conversation",
+        "artifactMode": "transcript+files",
+        "artifact": "\\.craft/(handoff|features/[^/]+/prd)[^/]*\\.md$",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-PLAN-04",
+      "prompt": "/craft-plan a habit tracker web app",
+      "expected_output": "Greenfield: mode is detected as greenfield, the skill asks about stack, hosting and budget only as far as needed, offers stack options with trade-offs and a recommended one, chooses a small first slice, and writes a hand-off file.",
+      "files": [
+        "evals/fixtures/empty"
+      ],
+      "extra": {
+        "developer": "evals/craft-plan/personas/priya-tech.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-HANDOFF",
+          "TC-WRITES",
+          "TC-STRUCTURE"
+        ],
+        "rubric": "plan-conversation",
+        "artifactMode": "transcript+files",
+        "artifact": "\\.craft/(handoff|features/[^/]+/prd)[^/]*\\.md$",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-PLAN-05",
+      "prompt": "/craft-plan recurring tasks for my task app. I think we should use Kafka for this.",
+      "expected_output": "The Developer proposes Kafka. The architect evaluates it honestly against the real scale (about 2,000 occurrences a day, one server) and the operational cost, recommends a simpler option that reuses the existing cron runner with a job table, notes how events can be added later, and the Developer decides. The hand-off records the decision and why.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "seed": "prd-ready",
+        "developer": "evals/craft-plan/personas/dana-kafka.md",
+        "turn_cap": 40,
+        "checks": [
+          "TC-ONEQ",
+          "TC-GIT",
+          "TC-HIST",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-HANDOFF",
+          "TC-WRITES",
+          "TC-STRUCTURE"
+        ],
+        "rubric": "plan-conversation",
+        "artifactMode": "transcript+files",
+        "artifact": "\\.craft/handoff/[^/]+\\.md$",
+        "threshold": 4
+      }
+    }
+  ]
+}

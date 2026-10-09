@@ -13,11 +13,26 @@ const SYSTEM = `You are a strict, fair reviewer scoring a document against a rub
 /** @param {number[]} xs */
 function median(xs) { const s = [...xs].sort((a, b) => a - b); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
 
+/** First balanced {...} object in the text, respecting strings. @param {string} text @returns {string|null} */
+function firstJsonObject(text) {
+  const start = text.indexOf('{');
+  if (start === -1) return null;
+  let depth = 0; let inStr = false; let esc = false;
+  for (let i = start; i < text.length; i++) {
+    const c = text[i];
+    if (inStr) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') inStr = false; continue; }
+    if (c === '"') inStr = true;
+    else if (c === '{') depth++;
+    else if (c === '}' && --depth === 0) return text.slice(start, i + 1);
+  }
+  return null;
+}
+
 /** @param {string} text @returns {Record<string,{score:number,evidence:string}>} */
 function parseJudge(text) {
-  const m = text.match(/\{[\s\S]*\}/);
-  if (!m) throw new Error('judge returned no JSON');
-  const obj = JSON.parse(m[0]);
+  const raw = firstJsonObject(text);
+  if (!raw) throw new Error('judge returned no JSON');
+  const obj = JSON.parse(raw);
   const c = obj.criteria;
   if (!c || typeof c !== 'object') throw new Error('judge JSON has no criteria');
   for (const [k, v] of Object.entries(c)) {
@@ -58,7 +73,7 @@ async function judge(o) {
   return { ...combine(runs), model, runs: n, costUsd: cost };
 }
 
-module.exports = { judge, parseJudge, combine, median };
+module.exports = { judge, parseJudge, combine, median, firstJsonObject };
 
 if (require.main === module) {
   const [rubric, artifact] = process.argv.slice(2).filter((a) => !a.startsWith('--'));

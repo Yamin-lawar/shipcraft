@@ -145,7 +145,9 @@ async function grade(c, variantDir, opts) {
   /** @type {any} */ let judged = null;
   if (opts.judge && extra.rubric) {
     const artifactKey = Object.keys(craftFiles).find((f) => extra.artifact && new RegExp(extra.artifact).test(f));
-    const artifact = extra.rubric === 'conversation' ? fs.readFileSync(path.join(variantDir, 'transcript.md'), 'utf8') : artifactKey ? craftFiles[artifactKey] : null;
+    const transcript = fs.readFileSync(path.join(variantDir, 'transcript.md'), 'utf8');
+    const files = Object.keys(craftFiles).filter((f) => extra.artifact && new RegExp(extra.artifact).test(f)).map((f) => `\n\n=== FILE ${f} ===\n${craftFiles[f]}`).join('');
+    const artifact = extra.artifactMode === 'transcript+files' ? transcript + files : extra.rubric === 'conversation' ? transcript : artifactKey ? craftFiles[artifactKey] : null;
     if (artifact) judged = await judge({ rubric: path.join(__dirname, 'rubrics', `${extra.rubric}.md`), artifact, release: opts.release, gate: opts.gate });
     else judged = { error: 'artifact not found', pattern: extra.artifact };
   }
@@ -193,6 +195,7 @@ async function main() {
       const workdir = path.join(dir, 'work');
       fs.mkdirSync(dir, { recursive: true });
       prepareWorkdir(c.files && c.files[0] ? path.resolve(ROOT, c.files[0]) : path.join(__dirname, 'fixtures', 'empty'), workdir);
+      if (c.extra && c.extra.seed) fs.cpSync(path.join(__dirname, 'seeds', c.extra.seed), workdir, { recursive: true });
       console.log(`running ${skill} case ${c.id} (${variant} skill)...`);
       const r = await runConversation({ c, variant, workdir, gate });
       fs.writeFileSync(path.join(dir, 'events.json'), JSON.stringify(r.events, null, 2));

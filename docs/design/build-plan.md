@@ -7,8 +7,8 @@
 | G2 | Repo and tooling | passed |
 | G3 | Shared contract | passed |
 | G4 | Eval harness and fixtures | passed |
-| G5 | sts-prd | built; partly proven, awaiting the Developer's review |
-| G6 | sts-plan, part 1 | pending |
+| G5 | sts-prd | built; partly proven (open items in evals/results/G5.md) |
+| G6 | sts-plan, part 1 | built; checks pass, awaiting the Developer's review |
 | G7 | sts-plan, part 2 | pending |
 | G8 | sts-explore | pending |
 | G9 | sts-flow and resume | pending |

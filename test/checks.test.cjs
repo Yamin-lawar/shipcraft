@@ -16,6 +16,9 @@ test('UT-CHECKS-01 TC-ONEQ flags batched prompts and multi-question turns', () =
   assert.equal(run({ events: [ask(2)] }, 'TC-ONEQ').ok, false);
   assert.equal(run({ events: [say('What? And why? And when?')] }, 'TC-ONEQ').ok, false);
 });
+test('UT-CHECKS-01b TC-ONEQ ignores question marks inside code', () => {
+  assert.equal(run({ events: [say('Use `WHERE id=? AND n=?` and\n```sql\nSELECT ?\n```\nOne real question?')] }, 'TC-ONEQ').ok, true);
+});
 test('UT-CHECKS-02 TC-GIT flags Shipcraft files in git status', () => {
   assert.equal(run({ events: [], gitStatus: ' M src/app.js\n?? src/new.js\n' }, 'TC-GIT').ok, true);
   assert.equal(run({ events: [], gitStatus: '?? .craft/\n' }, 'TC-GIT').ok, false);
@@ -60,6 +63,22 @@ test('UT-CHECKS-10 TC-PROGRESS needs an early draft save', () => {
   assert.equal(run({ events: [ask(1), ask(1), ask(1), ask(1), w] }, 'TC-PROGRESS').ok, false);
   assert.equal(run({ events: [ask(1), ask(1)] }, 'TC-PROGRESS').ok, true);
 });
+test('UT-CHECKS-11 TC-HANDOFF needs a hand-off file with summary, size and gating', () => {
+  const ok = { events: [], craftFiles: { '.craft/handoff/x.md': '## Design summary\nsize: large\ngating: hard' } };
+  assert.equal(run(ok, 'TC-HANDOFF').ok, true);
+  assert.equal(run({ events: [], craftFiles: {} }, 'TC-HANDOFF').ok, false);
+  assert.equal(run({ events: [], craftFiles: { '.craft/handoff/x.md': 'design summary only' } }, 'TC-HANDOFF').ok, false);
+});
+test('UT-CHECKS-12 TC-WRITES allows only .craft and local rule files', () => {
+  assert.equal(run({ events: [{ t: 'write', path: '.craft/x.md' }, { t: 'write', path: 'CLAUDE.local.md' }] }, 'TC-WRITES').ok, true);
+  assert.equal(run({ events: [{ t: 'write', path: 'src/app.js' }] }, 'TC-WRITES').ok, false);
+});
+test('UT-CHECKS-13 TC-STRUCTURE needs the named messages in order', () => {
+  const good = { events: [say('**Readout**\nfine'), say('## Proposed design\nx'), ask(1), say('Design summary\nx')] };
+  assert.equal(run(good, 'TC-STRUCTURE').ok, true);
+  assert.equal(run({ events: [ask(1), say('Design summary')] }, 'TC-STRUCTURE').ok, false);
+  assert.equal(run({ events: [say('Proposed design'), say('Readout')] }, 'TC-STRUCTURE').ok, false);
+});
 test('UT-CHECKS-09 TC-UX needs the opening and closing lines', () => {
   const ok = { events: [say('▶ recurring-tasks · PRD · I will ask short questions'), say('hi'), say('✔ Saved prd.md · Next: /craft-plan · Say "continue"')] };
   assert.equal(run(ok, 'TC-UX').ok, true);
@@ -81,6 +100,10 @@ test('UT-JUDGE-01 parseJudge validates scores and requires evidence', () => {
   assert.throws(() => parseJudge('{"criteria":{"a":{"score":9,"evidence":"x"}}}'), /1-5/);
   assert.throws(() => parseJudge('{"criteria":{"a":{"score":3,"evidence":""}}}'), /evidence/);
   assert.throws(() => parseJudge('no json'), /JSON/);
+});
+test('UT-JUDGE-03 parseJudge survives stray braces and trailing text', () => {
+  const t = 'Here: {"criteria":{"a":{"score":4,"evidence":"uses {braces} and \\"quotes\\""}}} and more {noise}';
+  assert.equal(parseJudge(t).a.score, 4);
 });
 test('UT-JUDGE-02 combine takes the median per criterion and reports average and minimum', () => {
   const r = combine([{ a: { score: 5, evidence: 'x' } }, { a: { score: 2, evidence: 'y' } }, { a: { score: 4, evidence: 'z' } }]);

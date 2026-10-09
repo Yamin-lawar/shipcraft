@@ -1,0 +1,17 @@
+{
+  "skill": "craft-plan",
+  "should_load": [
+    "I want to plan how to build recurring tasks in this app. Let's design it before coding.",
+    "help me design the architecture for a CSV export feature: what to reuse and what to add",
+    "/craft-plan bulk invite for teams",
+    "we have a PRD for dark mode; how should we build it? walk me through the technical approach",
+    "should we use a queue or cron for sending reminder emails? let's plan the feature properly"
+  ],
+  "should_not_load": [
+    "fix the failing test in task.service",
+    "rename the variable foo to taskList in this file",
+    "explain how the digest job works",
+    "write a PRD for a new feature",
+    "add a console.log to the login handler"
+  ]
+}

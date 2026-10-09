@@ -22,6 +22,8 @@ Every skill follows these rules for where files live and how they are written.
 ```
 
 ## Finding the Feature
+**List with a shell command, never a search tool.** Search tools skip hidden and gitignored folders, so a search for `.craft/` finds nothing and you would wrongly conclude that nothing exists. Run `ls .craft/features` (and `ls .craft/features/<slug>`) to see what is there, then open files by exact path.
+
 1. If the Developer named a Feature, use it.
 2. Else if exactly one folder in `.craft/features/` is in progress (see `resume.md`), use it.
 3. Else ask which one, or whether this is a new Feature.

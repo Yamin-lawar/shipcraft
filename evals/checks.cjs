@@ -17,7 +17,7 @@ const SHIPCRAFT_PATHS = [/(^|\s|\/)\.craft(\/|$)/, /CLAUDE\.local\.md/, /\.claud
 /** @param {string} id @param {string[]} details @returns {Result} */
 const result = (id, details) => ({ id, ok: details.length === 0, details });
 /** @param {string} text */
-const questionCount = (text) => (text.match(/\?/g) || []).length;
+const questionCount = (text) => (text.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '').match(/\?/g) || []).length;
 
 /** TC-ONEQ: one question per prompt, and at most one question mark per plain-text turn. @param {Ctx} ctx */
 function tcOneQ(ctx) {
@@ -69,7 +69,7 @@ function tcCeil(ctx, p) {
   let n = 0;
   for (const e of ctx.events) {
     if (e.t === 'question_prompt') n += (e.questions || []).length;
-    else if (e.t === 'assistant_text' && /\?\s*$/.test(e.text.trim())) n += 1;
+    else if (e.t === 'assistant_text' && /\?\s*$/.test(e.text.replace(/```[\s\S]*?```/g, '').trim())) n += 1;
   }
   return result('TC-CEIL', n > p.ceiling ? [`${n} questions asked, ceiling is ${p.ceiling}`] : []);
 }
@@ -109,6 +109,35 @@ function tcProgress(ctx, p = {}) {
   return result('TC-PROGRESS', prompts > within ? [`draft never saved after ${prompts} questions`] : []);
 }
 
+/** TC-HANDOFF: the hand-off file exists and carries the design summary, size and gating. @param {Ctx} ctx */
+function tcHandoff(ctx) {
+  const f = Object.entries(ctx.craftFiles || {}).find(([k]) => /\.craft\/handoff\/[^/]+\.md$/.test(k));
+  if (!f) return result('TC-HANDOFF', ['no .craft/handoff/<slug>.md found']);
+  const miss = ['design summary', 'size', 'gating'].filter((w) => !new RegExp(w, 'i').test(f[1]));
+  return result('TC-HANDOFF', miss.map((w) => `hand-off is missing "${w}"`));
+}
+
+/** TC-WRITES: files are written only under the allowed prefixes (default: .craft/). @param {Ctx} ctx @param {{ allowed?: string[] }} [p] */
+function tcWrites(ctx, p = {}) {
+  const allowed = p.allowed || ['.craft/', 'CLAUDE.local.md', '.cursor/rules/craft'];
+  const bad = [...new Set(ctx.events.filter((e) => e.t === 'write' && !allowed.some((a) => e.path.startsWith(a))).map((e) => e.path))];
+  return result('TC-WRITES', bad.map((b) => `wrote outside the allowed paths: ${b}`));
+}
+
+/** TC-STRUCTURE: named plain-text messages appear, in order, before the first decision prompt after them.
+ * @param {Ctx} ctx @param {{ headings?: string[] }} [p] */
+function tcStructure(ctx, p = {}) {
+  const headings = p.headings || ['Readout', 'Proposed design', 'Design summary'];
+  /** @type {string[]} */ const d = [];
+  let from = 0;
+  for (const h of headings) {
+    const re = new RegExp(`(^|\\n)[#*\\s]*${h}`, 'i');
+    const i = ctx.events.findIndex((e, k) => k >= from && e.t === 'assistant_text' && re.test(e.text));
+    if (i === -1) d.push(`no plain-text message headed "${h}" (in order)`); else from = i;
+  }
+  return result('TC-STRUCTURE', d);
+}
+
 /** TC-NOPROMPT: no question prompts at all (exploration). @param {Ctx} ctx */
 function tcNoPrompt(ctx) {
   const n = ctx.events.filter((e) => e.t === 'question_prompt').length;
@@ -125,7 +154,7 @@ function tcUx(ctx) {
   return result('TC-UX', d);
 }
 
-const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-PROGRESS': tcProgress, 'TC-UX': tcUx };
+const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-PROGRESS': tcProgress, 'TC-HANDOFF': tcHandoff, 'TC-STRUCTURE': tcStructure, 'TC-WRITES': tcWrites, 'TC-UX': tcUx };
 
 /**
  * @param {Ctx} ctx @param {string[]} ids @param {Record<string, any>} [params]
