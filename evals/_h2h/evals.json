@@ -1,0 +1,21 @@
+{
+  "skill_name": "_h2h",
+  "evals": [
+    {
+      "id": "H2H-01",
+      "prompt": "plan recurring-tasks from .craft/handoff/recurring-tasks.md",
+      "expected_output": "The Plan plan mode writes from the hand-off and the planning standards. Compared with BASE-01 (plain plan mode, score 2.63).",
+      "files": ["evals/fixtures/tasks-node"],
+      "extra": {
+        "seed": "handoff-ready",
+        "developer": "evals/_h2h/persona.md",
+        "permissionMode": "plan",
+        "turn_cap": 10,
+        "checks": ["TC-ONEQ", "TC-GIT", "TC-STEP0"],
+        "rubric": "plan",
+        "artifact": "baseline/plan\\.md$",
+        "threshold": 4
+      }
+    }
+  ]
+}

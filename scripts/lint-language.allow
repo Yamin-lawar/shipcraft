@@ -11,5 +11,6 @@ ignore-term: customer
 ignore-term: edge case
 # "approval" names the host's plan-mode approval step:
 references/host.md :: approval
+references/plan-mode-handoff.md :: approval
 # The PRD template mirrors how product documents address their own product's users:
 skills/craft-prd/assets/prd-template.md :: user

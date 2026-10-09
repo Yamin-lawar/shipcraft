@@ -16,7 +16,7 @@ Once the Developer approves the Plan in the host's plan mode, it is executed out
 
 ## Inputs to read first
 
-- The hand-off: `.craft/handoff/<slug>.md`, if it exists. It holds the agreed design summary, size, gating choice and any held files. When it exists, it's the authoritative summary of the planning conversation.
+- The hand-off: `.craft/handoff/<slug>.md`, if it exists (this file is `.craft/planning-standards.md`; the hand-off names it). It holds the agreed design summary, size, gating choice and any held files. When it exists, it's the authoritative summary of the planning conversation.
 - The Spec: `.craft/features/<slug>/prd.md`. It defines what must be true. Its `AC-n.m` IDs are the units every test traces back to.
 - The brief: `brief.md`, if present. Its Invariants (`I-n`), use cases (`U-n`) and security challenges carry straight into the Plan.
 - The design summary agreed in the `craft-plan` conversation. These decisions are settled; carry them over as decided.

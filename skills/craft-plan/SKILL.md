@@ -44,7 +44,7 @@ After each decision, append a line to the decisions log in `.craft/handoff/<slug
    - Hard gates: the work is split into Gates, and each stops until the Developer says continue.
    - Checkpoints: the same Gates, continuing automatically when each checklist is green.
    - No gates: one sequence of steps, with tests per step.
-3. Complete the hand-off file, then show the **Your turn** block (`references/ux.md`) to switch to the host's plan mode and send `plan <slug> from .craft/handoff/<slug>.md`. Plan mode writes the Plan; you do not.
+3. Complete the hand-off file and hand over to plan mode exactly as `references/plan-mode-handoff.md` says (standards copy, local rules pointer, the right path for the mode you are in, then the **Your turn** block). Plan mode writes the Plan; you do not.
 4. Say the closing line, exactly in this shape, as your very last line: `✔ Saved .craft/handoff/<slug>.md · Next: plan mode writes the Plan · Say "continue" in any new chat to pick this up.` Say once, just before it, that this is a good place for a fresh chat.
 
 ## Do not

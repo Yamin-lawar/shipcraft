@@ -43,6 +43,7 @@ Create it after the first decision, and append as you go. At the end it holds:
 ---
 craft_format: 1
 feature: <slug>
+standards: .craft/planning-standards.md
 prd: .craft/features/<slug>/prd.md
 brief: .craft/features/<slug>/brief.md   # or "none"
 mode: existing                           # existing | greenfield
