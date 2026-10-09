@@ -17,6 +17,7 @@
   ],
   "skills": [
     "./skills/hello-world",
+    "./skills/craft-explore",
     "./skills/craft-prd",
     "./skills/craft-plan"
   ]

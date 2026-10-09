@@ -1,0 +1,28 @@
+{
+  "skill_name": "craft-explore",
+  "evals": [
+    {
+      "id": "EV-EXP-01",
+      "prompt": "/craft-explore recurring tasks for my task app. Teams keep copying the same task every week.",
+      "expected_output": "A free prose conversation like two engineers talking, with no question prompts and at most one question per turn. The assistant explains, cites related code (the digest job), raises failure cases the Developer did not mention (double firing, missed runs, timezones, month ends, abuse), uses varied techniques (a scene walk-through, a pre-mortem, a comparison), saves a brief repeatedly with every claim sourced, and at wrap-up shows the brief and asks to confirm unverified claims.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "developer": "evals/craft-explore/personas/dana-explore.md",
+        "turn_cap": 20,
+        "checks": [
+          "TC-ONEQ",
+          "TC-NOPROMPT",
+          "TC-GIT",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-SAVES"
+        ],
+        "rubric": "brief",
+        "artifact": "\\.craft/features/[^/]+/brief\\.md$",
+        "threshold": 4
+      }
+    }
+  ]
+}

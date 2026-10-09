@@ -79,6 +79,12 @@ test('UT-CHECKS-13 TC-STRUCTURE needs the named messages in order', () => {
   assert.equal(run({ events: [ask(1), say('Design summary')] }, 'TC-STRUCTURE').ok, false);
   assert.equal(run({ events: [say('Proposed design'), say('Readout')] }, 'TC-STRUCTURE').ok, false);
 });
+test('UT-CHECKS-14 TC-SAVES needs repeated saves of the brief', () => {
+  const w = { t: 'write', path: '.craft/features/x/brief.md' };
+  assert.equal(run({ events: [w, say('x'), w] }, 'TC-SAVES').ok, true);
+  assert.equal(run({ events: [w] }, 'TC-SAVES').ok, false);
+  assert.equal(run({ events: [w, w] }, 'TC-SAVES', { min: 3 }).ok, false);
+});
 test('UT-CHECKS-09 TC-UX needs the opening and closing lines', () => {
   const ok = { events: [say('▶ recurring-tasks · PRD · I will ask short questions'), say('hi'), say('✔ Saved prd.md · Next: /craft-plan · Say "continue"')] };
   assert.equal(run(ok, 'TC-UX').ok, true);

@@ -138,6 +138,13 @@ function tcStructure(ctx, p = {}) {
   return result('TC-STRUCTURE', d);
 }
 
+/** TC-SAVES: a file is written at least `min` times (progressive saving). @param {Ctx} ctx @param {{ file?: RegExp, min?: number }} [p] */
+function tcSaves(ctx, p = {}) {
+  const file = p.file || /brief\.md$/; const min = p.min || 2;
+  const n = ctx.events.filter((e) => e.t === 'write' && file.test(e.path)).length;
+  return result('TC-SAVES', n >= min ? [] : [`${file} written ${n} time(s), expected at least ${min}`]);
+}
+
 /** TC-NOPROMPT: no question prompts at all (exploration). @param {Ctx} ctx */
 function tcNoPrompt(ctx) {
   const n = ctx.events.filter((e) => e.t === 'question_prompt').length;
@@ -154,7 +161,7 @@ function tcUx(ctx) {
   return result('TC-UX', d);
 }
 
-const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-PROGRESS': tcProgress, 'TC-HANDOFF': tcHandoff, 'TC-STRUCTURE': tcStructure, 'TC-WRITES': tcWrites, 'TC-UX': tcUx };
+const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-PROGRESS': tcProgress, 'TC-HANDOFF': tcHandoff, 'TC-STRUCTURE': tcStructure, 'TC-SAVES': tcSaves, 'TC-WRITES': tcWrites, 'TC-UX': tcUx };
 
 /**
  * @param {Ctx} ctx @param {string[]} ids @param {Record<string, any>} [params]

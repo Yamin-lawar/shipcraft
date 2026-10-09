@@ -43,4 +43,6 @@ test('UT-SIM-06 bashWritePath finds writes into .craft only', () => {
   assert.equal(bashWritePath('echo hi >> .craft/state.md'), '.craft/state.md');
   assert.equal(bashWritePath('ls .craft'), null);
   assert.equal(bashWritePath('cat src/app.js > out.txt'), null);
+  assert.equal(bashWritePath("cd /w/.craft/features/x && python3 - <<'EOF'\np='brief.md'\nopen(p,'w')\nEOF"), '.craft/features/x/brief.md');
+  assert.equal(bashWritePath("cd /w/.craft/features/x && sed -i '' 's/a/b/' brief.md"), '.craft/features/x/brief.md');
 });

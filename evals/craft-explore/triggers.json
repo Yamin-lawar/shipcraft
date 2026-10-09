@@ -1,0 +1,17 @@
+{
+  "skill": "craft-explore",
+  "should_load": [
+    "let's talk through how recurring tasks should work before we write anything down",
+    "I want to explore the idea of a CSV export feature. Can we think it through together?",
+    "/craft-explore reminder emails for overdue tasks",
+    "help me understand how scheduled jobs usually avoid running twice, for a feature I'm planning",
+    "before I write a PRD, let's brainstorm what could go wrong with a bulk invite feature"
+  ],
+  "should_not_load": [
+    "write the PRD for recurring tasks",
+    "fix the failing digest test",
+    "what is idempotency?",
+    "add a created_at column to the tasks table",
+    "review this pull request"
+  ]
+}

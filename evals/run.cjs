@@ -138,7 +138,12 @@ async function runConversation(o) {
 /** Free checks, then the judge. @param {any} c @param {string} variantDir @param {{ judge?: boolean, release?: boolean, gate: string }} opts */
 async function grade(c, variantDir, opts) {
   const extra = c.extra || {};
-  const events = JSON.parse(fs.readFileSync(path.join(variantDir, 'events.json'), 'utf8'));
+  const raw = JSON.parse(fs.readFileSync(path.join(variantDir, 'events.json'), 'utf8'));
+  // Older runs logged shell commands without the write they made; derive them so replays stay comparable.
+  const events = raw.flatMap((/** @type {any} */ e) => {
+    if (e.t === 'tool' && e.name === 'Bash') { const wp = bashWritePath(e.command || ''); if (wp && !raw.some((/** @type {any} */ x) => x.t === 'write' && x.via === 'bash' && x.path === wp && raw.indexOf(x) === raw.indexOf(e) - 1)) return [e, { t: 'write', path: wp, via: 'bash-derived' }]; }
+    return [e];
+  });
   const craftFiles = JSON.parse(fs.readFileSync(path.join(variantDir, 'craft-files.json'), 'utf8'));
   const gitStatus = fs.readFileSync(path.join(variantDir, 'git-status.txt'), 'utf8');
   const checks = runChecks({ events, craftFiles, gitStatus }, extra.checks || [], extra.checkParams || {});

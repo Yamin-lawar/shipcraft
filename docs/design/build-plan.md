@@ -10,7 +10,7 @@
 | G5 | sts-prd | built; partly proven (open items in evals/results/G5.md) |
 | G6 | sts-plan, part 1 | built; checks pass, awaiting the Developer's review |
 | G7 | sts-plan, part 2 | pending |
-| G8 | sts-explore | pending |
+| G8 | sts-explore | built; mostly proven (open items in evals/results/G8.md) |
 | G9 | sts-flow and resume | pending |
 | G10 | sts-challenge | pending |
 | G11 | Cursor and parity | pending |

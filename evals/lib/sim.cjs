@@ -22,9 +22,12 @@ function bashAllowed(cmd) { return !BASH_DENY.test(cmd); }
 
 /** The .craft path a shell command writes to, or null. Catches redirects, tee, cp, mv and touch. @param {string} cmd @returns {string|null} */
 function bashWritePath(cmd) {
-  if (!/(>>?|\btee\b|\bcp\b|\bmv\b|\btouch\b)/.test(cmd)) return null;
+  if (!/(>>?|\btee\b|\bcp\b|\bmv\b|\btouch\b|\bsed\s+-i|\bpython3?\b|\bperl\s+-\w*i|\bprintf\b)/.test(cmd)) return null;
   const m = cmd.match(/(\.craft\/[^\s'"`;|&)]+)/);
-  return m ? m[1] : null;
+  if (!m) return null;
+  if (m[1].endsWith('.md')) return m[1];
+  const f = cmd.slice(m.index + m[1].length).match(/['"\s=]([\w-]+\.md)\b/);
+  return f ? `${m[1].replace(/\/$/, '')}/${f[1]}` : m[1];
 }
 
 /** True when a file path is inside the work directory. @param {string} file @param {string} workdir */
