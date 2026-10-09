@@ -1,6 +1,6 @@
 ---
 name: craft-flow
-description: Pick up where the work left off, in any chat. Shows where each feature is in the flow (explore, PRD, plan, build, test, docs), notes if the branch or the PRD changed, and continues at exactly the next step, including the next Gate or step of a build. Use when the Developer says continue, next or where am I, starts a new chat in the middle of a feature, switches between Claude Code and Cursor, or runs /craft-flow.
+description: Pick up where the work left off, in any chat. Shows where each feature is in the flow (explore, PRD, plan, build, test, docs), notes if the branch or the PRD changed, and continues at exactly the next step, including the next Gate or step of a build. Use when the Developer says continue, continue where we left off, pick up, next or where am I, mentions being back or in a new chat, starts a new chat in the middle of a feature, switches between Claude Code and Cursor, or runs /craft-flow.
 license: MIT
 metadata:
   version: "0.0.1"

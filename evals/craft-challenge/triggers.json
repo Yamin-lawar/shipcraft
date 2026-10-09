@@ -1,0 +1,17 @@
+{
+  "skill": "craft-challenge",
+  "should_load": [
+    "challenge my PRD for recurring tasks, poke holes in it",
+    "stress-test this plan before I start building",
+    "/craft-challenge",
+    "can you play devil's advocate on the requirements and the plan for the export feature?",
+    "review the spec for gaps and weak acceptance criteria before we build"
+  ],
+  "should_not_load": [
+    "write a PRD for dark mode",
+    "review this pull request",
+    "challenge me with a coding puzzle",
+    "plan how to build recurring tasks",
+    "fix the failing test"
+  ]
+}

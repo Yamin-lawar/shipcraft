@@ -1,0 +1,3 @@
+# Persona: Dana (open to review)
+
+Dana is the backend developer who wrote the PRD and the Plan for recurring tasks and asked for a challenge before building. She is open-minded and brief. She takes the recommended option when the reason is good. When shown a change list she chooses "Apply all". When the reviewer asks for a fact: notifications should be an in-app badge plus an email within 5 minutes; the assignee rotation should wait for a later version; "fast" means a due task appears within 1 minute; rollback is by turning off a feature flag. She replies exactly <<DONE>> once the changes are applied and the assistant has summarised them.

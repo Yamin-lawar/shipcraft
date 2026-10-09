@@ -1,0 +1,22 @@
+{
+  "skill_name": "craft-challenge",
+  "evals": [
+    {
+      "id": "EV-CHAL-01",
+      "prompt": "/craft-challenge the PRD and the Plan for recurring-tasks",
+      "expected_output": "Raises the real weaknesses (the untestable notification AC, rotation marked P0 though it is a Feature of its own, 'fast' with no number, a vague access rule, one oversized Gate with no rollback), one concern per prompt with a recommended fix, blocking first. Then a numbered change list per document, one confirmation, a history copy before editing, edits applied with IDs kept stable, and no file of its own.",
+      "files": ["evals/fixtures/tasks-node"],
+      "extra": {
+        "seed": "weak-docs",
+        "developer": "evals/craft-challenge/personas/dana-reviewer.md",
+        "turn_cap": 4,
+        "checks": ["TC-ONEQ", "TC-GIT", "TC-HIST", "TC-SECRET", "TC-UX", "TC-CEIL"],
+        "checkParams": { "TC-CEIL": { "ceiling": 10 } },
+        "rubric": "challenge",
+        "artifactMode": "transcript+files",
+        "artifact": "\\.craft/features/[^/]+/(prd|plan)\\.md$",
+        "threshold": 4
+      }
+    }
+  ]
+}

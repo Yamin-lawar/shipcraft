@@ -12,7 +12,7 @@
 | G7 | sts-plan, part 2 | pending |
 | G8 | sts-explore | built; mostly proven (open items in evals/results/G8.md) |
 | G9 | sts-flow and resume | built; judge below bar, resume behaves correctly (see evals/results/G9.md) |
-| G10 | sts-challenge | pending |
+| G10 | sts-challenge | built; judge 3.83, just under bar (see evals/results/G10.md) |
 | G11 | Cursor and parity | pending |
 | G12 | Dogfood and head-to-head | pending |
 | G13 | Docs and v0.1 release | pending |

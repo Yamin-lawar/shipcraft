@@ -20,6 +20,7 @@
     "./skills/craft-explore",
     "./skills/craft-prd",
     "./skills/craft-plan",
+    "./skills/craft-challenge",
     "./skills/craft-flow"
   ]
 }
