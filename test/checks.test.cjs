@@ -85,6 +85,13 @@ test('UT-CHECKS-14 TC-SAVES needs repeated saves of the brief', () => {
   assert.equal(run({ events: [w] }, 'TC-SAVES').ok, false);
   assert.equal(run({ events: [w, w] }, 'TC-SAVES', { min: 3 }).ok, false);
 });
+test('UT-CHECKS-15 TC-RESUMEQ needs a recommended Continue option first', () => {
+  const good = { events: [{ t: 'question_prompt', questions: [{ question: 'q', options: [{ label: 'Continue Gate 2 (Recommended)' }, { label: 'Another Feature' }] }], answers: {} }] };
+  const bad = { events: [{ t: 'question_prompt', questions: [{ question: 'q', options: [{ label: 'Another Feature' }, { label: 'Continue (Recommended)' }] }], answers: {} }] };
+  assert.equal(run(good, 'TC-RESUMEQ').ok, true);
+  assert.equal(run(bad, 'TC-RESUMEQ').ok, false);
+  assert.equal(run({ events: [] }, 'TC-RESUMEQ').ok, false);
+});
 test('UT-CHECKS-09 TC-UX needs the opening and closing lines', () => {
   const ok = { events: [say('▶ recurring-tasks · PRD · I will ask short questions'), say('hi'), say('✔ Saved prd.md · Next: /craft-plan · Say "continue"')] };
   assert.equal(run(ok, 'TC-UX').ok, true);

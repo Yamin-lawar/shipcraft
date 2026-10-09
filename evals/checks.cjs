@@ -145,6 +145,16 @@ function tcSaves(ctx, p = {}) {
   return result('TC-SAVES', n >= min ? [] : [`${file} written ${n} time(s), expected at least ${min}`]);
 }
 
+/** TC-RESUMEQ: the resume question comes first, offers Continue as the recommended first option, and no scope question follows. @param {Ctx} ctx */
+function tcResumeQ(ctx) {
+  const q = ctx.events.find((e) => e.t === 'question_prompt');
+  if (!q) return result('TC-RESUMEQ', ['no resume question was asked']);
+  const first = (q.questions[0].options || [])[0];
+  /** @type {string[]} */ const d = [];
+  if (!first || !/continue/i.test(first.label) || !/recommended/i.test(first.label)) d.push(`first option is not a recommended "Continue ...": ${first && first.label}`);
+  return result('TC-RESUMEQ', d);
+}
+
 /** TC-NOPROMPT: no question prompts at all (exploration). @param {Ctx} ctx */
 function tcNoPrompt(ctx) {
   const n = ctx.events.filter((e) => e.t === 'question_prompt').length;
@@ -161,7 +171,7 @@ function tcUx(ctx) {
   return result('TC-UX', d);
 }
 
-const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-PROGRESS': tcProgress, 'TC-HANDOFF': tcHandoff, 'TC-STRUCTURE': tcStructure, 'TC-SAVES': tcSaves, 'TC-WRITES': tcWrites, 'TC-UX': tcUx };
+const ALL = { 'TC-ONEQ': tcOneQ, 'TC-GIT': tcGit, 'TC-HIST': tcHist, 'TC-SECRET': tcSecret, 'TC-CEIL': tcCeil, 'TC-NOWRITE': tcNoWrite, 'TC-STEP0': tcStep0, 'TC-NOPROMPT': tcNoPrompt, 'TC-PROGRESS': tcProgress, 'TC-HANDOFF': tcHandoff, 'TC-STRUCTURE': tcStructure, 'TC-SAVES': tcSaves, 'TC-RESUMEQ': tcResumeQ, 'TC-WRITES': tcWrites, 'TC-UX': tcUx };
 
 /**
  * @param {Ctx} ctx @param {string[]} ids @param {Record<string, any>} [params]

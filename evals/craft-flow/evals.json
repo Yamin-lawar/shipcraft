@@ -1,0 +1,72 @@
+{
+  "skill_name": "craft-flow",
+  "evals": [
+    {
+      "id": "EV-FLOW-01",
+      "prompt": "continue",
+      "expected_output": "In a new chat with a half-written PRD saved: the resume card shows the Feature and that the PRD is in progress with its pending topics, and the one question offers continuing the PRD as the recommended first choice. No scope question follows, and nothing already answered is asked again.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "seed": "prd-midway",
+        "developer": "evals/craft-flow/personas/dana-continue.md",
+        "turn_cap": 3,
+        "checks": [
+          "TC-GIT",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-RESUMEQ",
+          "TC-WRITES"
+        ],
+        "rubric": "flow",
+        "artifactMode": "transcript",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-FLOW-02",
+      "prompt": "continue",
+      "expected_output": "A build mid-Gate 2: the card says Gate 1 passed and Gate 2 in progress, with step 2.3 next. It notes once that the branch differs from the recorded one and that the PRD changed since the Plan was written, without blocking. The first option is to continue Gate 2 from step 2.3, recommended.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "seed": "build-midway",
+        "developer": "evals/craft-flow/personas/dana-continue.md",
+        "turn_cap": 3,
+        "checks": [
+          "TC-GIT",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-RESUMEQ"
+        ],
+        "rubric": "flow",
+        "artifactMode": "transcript",
+        "threshold": 4
+      }
+    },
+    {
+      "id": "EV-FLOW-03",
+      "prompt": "/craft-flow where am I?",
+      "expected_output": "With state.md missing, the bookmark is rebuilt from the artifacts (the PRD, the Plan's gate statuses and ticked steps) and the same resume card appears. Only the step inside the Gate may be uncertain, and the skill says so.",
+      "files": [
+        "evals/fixtures/tasks-node"
+      ],
+      "extra": {
+        "seed": "build-nostate",
+        "developer": "evals/craft-flow/personas/dana-continue.md",
+        "turn_cap": 3,
+        "checks": [
+          "TC-GIT",
+          "TC-SECRET",
+          "TC-UX",
+          "TC-RESUMEQ"
+        ],
+        "rubric": "flow",
+        "artifactMode": "transcript",
+        "threshold": 4
+      }
+    }
+  ]
+}

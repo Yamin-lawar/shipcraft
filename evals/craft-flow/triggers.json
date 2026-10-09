@@ -1,0 +1,17 @@
+{
+  "skill": "craft-flow",
+  "should_load": [
+    "continue where we left off on recurring tasks",
+    "where am I with this feature?",
+    "/craft-flow",
+    "I'm back in a new chat, pick up the recurring tasks work",
+    "what's next for the feature we were planning?"
+  ],
+  "should_not_load": [
+    "continue the sentence: the quick brown fox",
+    "what is the next version of node?",
+    "write a PRD for dark mode",
+    "show me the git log",
+    "fix the failing test"
+  ]
+}

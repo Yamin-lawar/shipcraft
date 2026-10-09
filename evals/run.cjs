@@ -152,7 +152,7 @@ async function grade(c, variantDir, opts) {
     const artifactKey = Object.keys(craftFiles).find((f) => extra.artifact && new RegExp(extra.artifact).test(f));
     const transcript = fs.readFileSync(path.join(variantDir, 'transcript.md'), 'utf8');
     const files = Object.keys(craftFiles).filter((f) => extra.artifact && new RegExp(extra.artifact).test(f)).map((f) => `\n\n=== FILE ${f} ===\n${craftFiles[f]}`).join('');
-    const artifact = extra.artifactMode === 'transcript+files' ? transcript + files : extra.rubric === 'conversation' ? transcript : artifactKey ? craftFiles[artifactKey] : null;
+    const artifact = extra.artifactMode === 'transcript' ? transcript : extra.artifactMode === 'transcript+files' ? transcript + files : extra.rubric === 'conversation' ? transcript : artifactKey ? craftFiles[artifactKey] : null;
     if (artifact) judged = await judge({ rubric: path.join(__dirname, 'rubrics', `${extra.rubric}.md`), artifact, release: opts.release, gate: opts.gate });
     else judged = { error: 'artifact not found', pattern: extra.artifact };
   }
